@@ -21,7 +21,7 @@ import com.example.demo.service.TaskListService;
 
 @RestController
 @RequestMapping("/api/tasklists")
-@CrossOrigin // pokud voláš z frontendu
+@CrossOrigin 
 public class TaskListController {
     private final TaskListService taskListService;
 
@@ -29,44 +29,40 @@ public class TaskListController {
         this.taskListService = taskListService;
     }
 
-    // 1️⃣ Vytvoření nového seznamu úkolů
+    // Vytvoření nového seznamu úkolů
     @PostMapping("/add")
     public ResponseEntity<Map<String, String>> createTaskList(@RequestBody List<Task> tasks) {
-       
+
         TaskList createdTaskList = taskListService.createTaskList(tasks);
 
         Map<String, String> response = new HashMap<>();
         response.put("taskListUuid", createdTaskList.getTaskListUuid().toString());
 
-        return ResponseEntity.ok(response);  // Vrátíme UUID seznamu úkolů
+        return ResponseEntity.ok(response); 
     }
 
     // 2️⃣ Přidání nových úkolů do existujícího seznamu
     @PostMapping("/addTasks")
     public TaskList addTasksToList(@RequestParam UUID taskListUuid, @RequestBody List<Task> tasks) {
-        // Backend najde TaskList podle UUID a přidá nové úkoly
+     
         return taskListService.addTasksToList(taskListUuid, tasks);
     }
 
-   @GetMapping("/{taskListUuid}")
-public ResponseEntity<TaskList> getTaskListByUuid(@PathVariable String taskListUuid) {
-    try {
-        // Převod UUID z parametru v URL
-        UUID uuid = UUID.fromString(taskListUuid);
-        
-        // Zavolání služby pro získání TaskListu podle UUID
-        TaskList taskList = taskListService.getTaskListByUuid(uuid); 
-        
-        if (taskList == null) {
-            return ResponseEntity.notFound().build(); // Vrátí 404 pokud TaskList neexistuje
+    @GetMapping("/{taskListUuid}")
+    public ResponseEntity<TaskList> getTaskListByUuid(@PathVariable String taskListUuid) {
+        try {
+      
+            UUID uuid = UUID.fromString(taskListUuid);
+            TaskList taskList = taskListService.getTaskListByUuid(uuid);
+
+            if (taskList == null) {
+                return ResponseEntity.notFound().build(); 
+            }
+
+            return ResponseEntity.ok(taskList); 
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build(); 
         }
-        
-        return ResponseEntity.ok(taskList); // Vrátí TaskList v odpovědi
-    } catch (IllegalArgumentException e) {
-        return ResponseEntity.badRequest().build(); // Pokud je UUID neplatné, vrátí 400
     }
-}
 
-
-    
 }
