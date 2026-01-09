@@ -21,7 +21,8 @@ public class WeeklyCalendarBackendApplication {
                 registry.addMapping("/**") // všechny endpointy
                         .allowedOrigins("http://localhost:4200",
                                 "https://weekly-calendar-frontend.vercel.app", 
-                                "https://www.tydenni-kalendar.cz") 
+                                "https://www.tydenni-kalendar.cz",
+                                "https://www.kalendar2026.cz")
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
