@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.UpdateTaskRequest;
 import com.example.demo.entity.Task;
 import com.example.demo.repository.TaskRepository;
 
@@ -43,5 +44,19 @@ public class TaskService {
 
         taskRepository.deleteById(taskId);
         logger.info("Task {} deleted", taskId);
+    }
+
+    @Transactional
+    public void updateTask(Long id, UpdateTaskRequest req) {
+        Task task = taskRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Task not found: " + id));
+
+        if (req.getDescription() != null && !req.getDescription().isBlank()) {
+            task.setDescription(req.getDescription());
+        }
+
+        if (req.getPriority() != null) {
+            task.setPriority(req.getPriority());
+        }
     }
 }

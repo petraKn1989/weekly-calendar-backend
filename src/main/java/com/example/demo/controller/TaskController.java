@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.UpdateTaskRequest;
 import com.example.demo.entity.Task;
 import com.example.demo.repository.TaskListRepository;
 import com.example.demo.service.TaskService;
@@ -39,6 +40,15 @@ public class TaskController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateTask(
+            @PathVariable Long id,
+            @RequestBody UpdateTaskRequest request
+    ) {
+        taskService.updateTask(id, request);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{taskId}")
