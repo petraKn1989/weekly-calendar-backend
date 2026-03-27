@@ -29,7 +29,7 @@ public class TaskListController {
         this.taskListService = taskListService;
     }
 
-    // Vytvoření nového seznamu úkolů
+    /** 
     @PostMapping("/add")
     public ResponseEntity<Map<String, String>> createTaskList(@RequestBody List<Task> tasks) {
 
@@ -40,6 +40,7 @@ public class TaskListController {
 
         return ResponseEntity.ok(response); 
     }
+        */
 
     // 2️⃣ Přidání nových úkolů do existujícího seznamu
     @PostMapping("/addTasks")
@@ -64,5 +65,24 @@ public class TaskListController {
             return ResponseEntity.badRequest().build(); 
         }
     }
+
+    @PostMapping("/add")
+public ResponseEntity<Map<String, String>> createTaskList(
+        @RequestBody List<Task> tasks,
+        @RequestParam Long userId) { // Přijímáme ?userId=X v URL
+
+    TaskList createdTaskList = taskListService.createTaskList(tasks, userId);
+
+    Map<String, String> response = new HashMap<>();
+    response.put("taskListUuid", createdTaskList.getTaskListUuid().toString());
+
+    return ResponseEntity.ok(response); 
+}
+
+// A přidejte metodu pro získání seznamů uživatele:
+@GetMapping("/user/{userId}")
+public ResponseEntity<List<TaskList>> getUserLists(@PathVariable Long userId) {
+    return ResponseEntity.ok(taskListService.findAllByUserId(userId));
+}
 
 }

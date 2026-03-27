@@ -2,7 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Task;
 import com.example.demo.entity.TaskList;
+import com.example.demo.entity.User;
 import com.example.demo.repository.TaskListRepository;
+import com.example.demo.repository.UserRepository;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,11 @@ public class TaskListService {
     private static final Logger logger = LoggerFactory.getLogger(TaskListService.class);
 
     private final TaskListRepository taskListRepository;
+    private final UserRepository userRepository;
 
-    public TaskListService(TaskListRepository taskListRepository) {
+    public TaskListService(TaskListRepository taskListRepository, UserRepository userRepository) {
         this.taskListRepository = taskListRepository;
+        this.userRepository = userRepository;
     }
 
     // Vytvoření nového seznamu úkolů
@@ -75,6 +79,33 @@ public class TaskListService {
         }
 
         return taskList;
+    }
+
+    // Vytvoření nového seznamu úkolů PRO KONKRÉTNÍHO UŽIVATELE
+    @Transactional
+    public TaskList createTaskList(List<Task> tasks, Long userId) {
+        // 1. Najdeme uživatele v DB (toho, co jste tam vložila ručně)
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Uživatel s ID " + userId + " nebyl nalezen"));
+
+        TaskList taskList = new TaskList();
+        taskList.setUser(user); // Tady propojíme seznam s uživatelem
+
+        for (Task task : tasks) {
+            task.setTaskList(taskList);
+        }
+
+        taskList.setTasks(tasks);
+
+        TaskList savedList = taskListRepository.save(taskList);
+        logger.info("Created TaskList {} for user {}", savedList.getTaskListUuid(), userId);
+        return savedList;
+    }
+
+    
+    @Transactional(readOnly = true)
+    public List<TaskList> findAllByUserId(Long userId) {
+        return taskListRepository.findByUserId(userId);
     }
 
 }

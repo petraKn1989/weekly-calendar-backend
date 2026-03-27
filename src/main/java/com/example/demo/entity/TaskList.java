@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "task_lists")
 public class TaskList {
@@ -21,6 +23,15 @@ public class TaskList {
     public TaskList() {
         this.taskListUuid = UUID.randomUUID();  // Automaticky generované UUID při vytvoření seznamu
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "user_id")
+@JsonIgnore // Abs
+private User user;
+
+
+public User getUser() { return user; }
+public void setUser(User user) { this.user = user; }
 
     // Gettery a Settery
     public Long getId() {
