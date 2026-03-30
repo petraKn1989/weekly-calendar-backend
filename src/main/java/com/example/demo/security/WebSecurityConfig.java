@@ -26,9 +26,10 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         .authorizeHttpRequests(auth -> auth
             // Tady už to není permitAll! Musíte být přihlášená.
         
-           
-            .requestMatchers("/api/users/**", "/api/users").hasAnyAuthority("ROLE_USER", "USER")
-            .anyRequest().authenticated()
+    .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/users/register").permitAll()
+    .requestMatchers("/error").permitAll() // Přidejte tuhle řádku
+    .requestMatchers("/api/users/**").hasAnyAuthority("ROLE_USER", "USER")
+    .anyRequest().authenticated()
            
         )
         // KLÍČOVÁ ZMĚNA: Zapneme Basic Auth (předávání jména a hesla v hlavičce)
