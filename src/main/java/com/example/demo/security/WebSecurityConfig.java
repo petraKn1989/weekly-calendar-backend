@@ -27,6 +27,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             // Tady už to není permitAll! Musíte být přihlášená.
         
     .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/users/register").permitAll()
+    .requestMatchers("/api/shopping/**").permitAll() 
     .requestMatchers("/error").permitAll() // Přidejte tuhle řádku
     .requestMatchers("/api/users/**").hasAnyAuthority("ROLE_USER", "USER")
     .anyRequest().authenticated()
@@ -43,6 +44,9 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList(
             "http://localhost:4200", 
+            "http://localhost:3000",        // Nové: Povolí Next.js lokálně
+        "http://192.168.100.4:3000",
+          
             "https://weekly-calendar-frontend.vercel.app",
             "https://www.tydenni-kalendar.cz",
             "https://www.kalendar2026.cz"

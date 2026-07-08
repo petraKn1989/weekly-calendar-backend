@@ -20,6 +20,8 @@ public class WeeklyCalendarBackendApplication {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // všechny endpointy
                         .allowedOrigins("http://localhost:4200",
+                        "http://localhost:3000",
+                        "http://192.168.100.4",
                                 "https://weekly-calendar-frontend.vercel.app", 
                                 "https://www.tydenni-kalendar.cz",
                                 "https://www.kalendar2026.cz")
