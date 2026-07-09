@@ -23,7 +23,8 @@ public class WeeklyCalendarBackendApplication {
                         "http://localhost:3000",
                       
                         "https://shopping-list-penocyu94-petra-knichalovas-projects.vercel.app",
-                        "https://mujnakupniseznam.cz",
+                        "https://www.mujnakupniseznam.cz",
+                       
                                 "https://weekly-calendar-frontend.vercel.app", 
                                 "https://www.tydenni-kalendar.cz",
                                 "https://www.kalendar2026.cz")

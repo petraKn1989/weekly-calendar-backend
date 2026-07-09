@@ -46,7 +46,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             "http://localhost:4200", 
             "http://localhost:3000",        // Nové: Povolí Next.js lokálně
             "https://shopping-list-penocyu94-petra-knichalovas-projects.vercel.app",
-            "https://mujnakupniseznam.cz",
+            "https://www.mujnakupniseznam.cz",
         "http://192.168.100.4:3000",
           
             "https://weekly-calendar-frontend.vercel.app",
