@@ -21,7 +21,8 @@ public class WeeklyCalendarBackendApplication {
                 registry.addMapping("/**") // všechny endpointy
                         .allowedOrigins("http://localhost:4200",
                         "http://localhost:3000",
-                        "shopping-list-penocyu94-petra-knichalovas-projects.vercel.app",
+                      
+                        "https://shopping-list-penocyu94-petra-knichalovas-projects.vercel.app",
                         "https://mujnakupniseznam.cz",
                                 "https://weekly-calendar-frontend.vercel.app", 
                                 "https://www.tydenni-kalendar.cz",
